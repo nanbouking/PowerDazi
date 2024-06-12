@@ -1,0 +1,21 @@
+@import "../../style/skin.wxss";
+@import "../../../../style/project/search_style.wxss";
+
+page {
+	background-color: #f8f8f8 !important;
+	background-image: linear-gradient(180deg, #ffe99a, #f8f8f8, #f8f8f8);
+} 
+
+.main,
+.main-search .his,
+.main-search .search {
+	background-color: transparent !important;
+}
+
+.search-form {
+	background-color: #f8f8f8 !important;
+}
+
+.text-white, .border-white {
+    color: var(--black)!important;
+}

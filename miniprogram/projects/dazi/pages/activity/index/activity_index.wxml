@@ -1,0 +1,48 @@
+<view wx:if="{{!isLoad}}" class="margin-top load loading text-l load-project"></view>
+<block wx:else>
+
+	<cmpt-comm-list type="activity-list-his" _params="{{_params}}" search="{{search||''}}" _menus="{{sortMenus}}" _items="{{sortItems}}" sortMenusDefaultIndex="0" route="activity/list" topBottom="120" isTotalMenu="{{true}}" placeholder="搜索" bind:list="bindCommListCmpt">  
+
+		<view class="main">
+			<view class="list">
+				<block wx:for="{{dataList.list}}" wx:key="key"> 
+					<view class="item shadow-project" bindtap="url" data-url="{{route=='activity/online_list'?'../../activity/':'../'}}detail/activity_detail?id={{item._id}}">
+						<view class="status {{item.statusDesc=='报名中'?'comm':''}}">
+							<text wx:if="{{item.statusDesc=='报名中'}}">报名中</text>
+							<text wx:else>{{item.statusDesc}}</text>
+						</view>
+						<view class="left">
+							<view class="mark">{{item.ACTIVITY_CATE_NAME}}</view>
+							<image class="loading shadow-project" mode="aspectFill" lazy-load="{{true}}" src="{{item.ACTIVITY_OBJ.cover[0]}}" />
+						</view> 
+						<view class="right">
+							<view class="title content-cut-two">{{item.ACTIVITY_TITLE}} </view>
+							<view class="detail">
+								<view class="line"><text class="icon-time margin-right-xxs text-cyan"></text>{{item.start}}</view>
+								<view  class="line content-cut-one"><text class="icon-location margin-right-xxs text-cyan"></text>{{item.ACTIVITY_ADDRESS}}</view>
+								 
+								<view class="line"><text class="icon-friend margin-right-xxs text-cyan"></text>报名：{{item.ACTIVITY_JOIN_CNT}}<text class="num">/</text>{{item.ACTIVITY_MAX_CNT==0?'不限':item.ACTIVITY_MAX_CNT}}</view>
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+
+		</view>
+
+
+		<!--load begin-->
+		<import src="../../../../../tpls/public/list_load_tpl.wxml" />
+		<template is="listLoadTpl" data="{{skin:'load-project',dataList}}" />
+		<!--load end-->
+
+	</cmpt-comm-list> 
+
+ 
+
+	<block wx:if="{{skin.IS_SUB}}">
+		<import src="../../tpls/menu_tpl.wxml" />
+		<template is="menuTpl" data="{{skin,curMenu:'activity_index',returnHome}}" />
+	</block>
+
+</block>

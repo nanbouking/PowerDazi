@@ -1,0 +1,62 @@
+<view wx:if="{{!isLoad}}" class="margin-top load loading text-l load-project"></view>
+<block wx:else>
+
+	<cmpt-comm-list type="activity-list-run" _params="{{_params}}" search="{{search||''}}" _menus="{{sortMenus}}" _items="{{sortItems}}" sortMenusDefaultIndex="0" route="activity/list" topBottom="120" isTotalMenu="{{true}}" placeholder="搜索" bind:list="bindCommListCmpt">
+
+		<view class="banner">
+			<image lazy-load="{{true}}" mode="widthFix" src="../../../images/banner.jpg" />
+		</view>
+		<view class="content-list">
+			<view class="content-left">
+				<block wx:for="{{dataList.list}}" wx:key="list">
+					<template is='item-data' data='{{...item}}' wx:if="{{index % 2 ==0}}"></template>
+				</block>
+			</view>
+			<view class="content-right">
+				<block wx:for="{{dataList.list}}" wx:key="list">
+					<template is='item-data' data='{{...item}}' wx:if="{{index % 2 ==1}}"></template>
+				</block>
+			</view>
+		</view>
+
+
+		<!--load begin-->
+		<import src="../../../../../tpls/public/list_load_tpl.wxml" />
+		<template is="listLoadTpl" data="{{skin:'load-project',dataList}}" />
+		<!--load end-->
+
+	</cmpt-comm-list>
+
+
+	<!-- 定义模板 -->
+	<template name="item-data">
+		<view class="content-item shadow-project" bind:tap="url" data-url="../../activity/detail/activity_detail?id={{_id}}">
+
+			<!-- 重点是mode为widthFix -->
+			<view class="content-item-img">
+				<view class="mark">{{ACTIVITY_CATE_NAME}}</view>
+				<view class="time">{{ACTIVITY_START_DAY}}</view>
+				<image src="{{ACTIVITY_OBJ.cover}}" class="content-item-img loading" lazy-load="{{true}}" mode="widthFix" />
+			</view>
+
+			<view class="content-item-box">
+				<view class="line1 content-cut-two">{{ACTIVITY_TITLE}}</view>
+				<view class="line2">
+					<view class="left">
+						<block wx:if="{{ACTIVITY_TYPE==1}}">
+							<image src="{{user.USER_PIC}}" mode="aspectFill" lazy-load="{{true}}" class="avatar loading" />
+							<view class="name text-cut">{{user.USER_NAME}}</view>
+						</block>
+						<view wx:else class="name text-cut"><text class="icon-people"></text>平台发布</view>
+					</view>
+					<view wx:if="{{ACTIVITY_JOIN_CNT>0}}" class="right"><text class="icon-group"></text>{{ACTIVITY_JOIN_CNT}}</view>
+				</view>
+			</view>
+		</view>
+	</template>
+
+	<block wx:if="{{skin.IS_SUB}}">
+		<import src="../../tpls/menu_tpl.wxml" />
+		<template is="menuTpl" data="{{skin,curMenu:'home_index',returnHome}}" />
+	</block>
+</block>

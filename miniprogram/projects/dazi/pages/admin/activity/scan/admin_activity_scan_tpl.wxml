@@ -1,0 +1,16 @@
+<view class="form-box shadow">
+		<view class="form-group">
+			<view class="title text-cut">{{title}}</view>
+		</view>
+
+	</view>
+
+	<view class="form-box shadow margin-top-xs">
+
+		<view class="checkin" bindtap="bindScanTap">
+			<view class="notice"><text class="icon-scan margin-right-s text-bold"></text>扫码核销</view>
+			<view class="desc">管理员或发起人扫描用户报名码进行签到核销</view>
+			<view class="oprt">立即核销</view>
+		</view>
+
+	</view>

@@ -1,0 +1,13 @@
+@import '../../../../../../style/public/admin.wxss';
+
+page {
+	background-color: #f8f8f8;
+} 
+
+.admin-comm-list .item .info .oprt { 
+    padding: 0rpx 0rpx;
+}
+
+.admin-comm-list .item .info .info-item .title {
+    width: 140rpx!important; 
+}

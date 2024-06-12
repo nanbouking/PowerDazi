@@ -1,0 +1,7 @@
+{
+	"usingComponents": { 
+		  
+	},  
+	"enablePullDownRefresh": true,
+	"navigationBarTitleText": "名单导出"
+}

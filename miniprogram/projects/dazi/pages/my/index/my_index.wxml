@@ -1,0 +1,108 @@
+<view class="main {{skin.IS_SUB?'sub-margin-bottom':''}}">
+
+	<view class="top">
+		<view class="inner" bindtap="url" data-url="{{user?'../edit/my_edit':'../reg/my_reg'}}">
+			<image src="{{user.USER_PIC||'../../../images/xr.png'}}" class="loading" mode="aspectFill"></image>
+			<view class="right">
+				<view class="line1">
+					<view class="name">{{user?user.USER_NAME:'注册 / 登录'}}</view>
+					<view wx:if="{{user&&user.USER_STATUS==9}}" class="type">已禁用</view>
+					<view wx:elif="{{user&&user.USER_STATUS==0}}" class="type">已注册，待审核</view>
+					<view wx:elif="{{user&&user.USER_STATUS==8}}" class="type">审核未通过，请修改资料</view>
+				</view>
+				<view wx:if="{{user.USER_MOBILE}}" class="line2">手机号：{{mobile}}</view>
+			</view>
+		</view> 
+	</view>
+
+	<view class="record padding-project">
+		<view class="inner card-project shadow-project">
+			<view class="item" bindtap="url" data-url="../../activity/my_join_list/activity_my_join_list">
+				<text class="icon-group text-yellow"></text>
+				<view class="title">我报名的活动</view>
+			</view>
+			<view class="mid"></view>
+			<view class="item" bindtap="url" data-url="../../activity_client/my_list/activity_my_list">
+				<text class="icon-activityfill text-yellow"></text>
+				<view class="title">我发起的活动</view>
+			</view>
+		</view>
+
+	</view>
+	<!--down area begin-->
+	<view class="down padding-project">
+
+		<!--base begin -->
+		<view class="comm-list menu card-project shadow-project">
+			<view wx:if="{{user&&user.USER_STATUS!=9}}" class="item arrow" bindtap="url" data-url="../edit/my_edit">
+				<view class="content">
+					<text class="icon-edit my-icon-project"></text>
+					<text class="text-black">修改我的个人资料</text>
+				</view>
+			</view> 
+
+			<view class="item arrow" bindtap="url" data-url="../fav/my_fav">
+				<view class="content">
+					<text class="icon-favor my-icon-project"></text>
+					<text class="text-black">我的收藏</text>
+				</view>
+			</view>
+
+			<view class="item arrow" bindtap="url" data-url="../../news/index/news_index">
+				<view class="content">
+					<text class="icon-news my-icon-project"></text>
+					<text class="text-black">公告通知</text>
+				</view>
+			</view>
+
+			<view class="item arrow" bindtap="url" data-url="../foot/my_foot">
+				<view class="content">
+					<text class="icon-footprint my-icon-project"></text>
+					<text class="text-black">历史浏览</text>
+				</view>
+			</view>
+
+
+			<view wx:if="{{skin.IS_SUB}}" class="item arrow" bindtap="bindSetTap">
+				<view class="content">
+					<text class="icon-settings my-icon-project"></text>
+					<text class="text-red text-bold ">系统后台管理<text class="text-grey text-normal">（点击试用）</text></text>
+				</view>
+			</view>
+
+			<view class="item arrow" bindtap="url" data-url="../../about/index/about_index?key=SETUP_CONTENT_ABOUT">
+				<view class="content">
+					<text class="icon-service my-icon-project"></text>
+					<text class="text-black">关于我们</text>
+				</view>
+			</view>
+
+			<view wx:if="{{skin.IS_SUB}}" class="item arrow" bindtap="url" data-url="/pages/home/about/home_about">
+				<view class="content">
+					<text class="icon-phone my-icon-project"></text>
+					<text class="text-orange">联系作者了解更多详情</text>
+				</view>
+			</view>
+
+			<view wx:if="{{!skin.IS_SUB}}" class="item arrow" bindtap="bindSetTap">
+				<view class="content">
+					<text class="icon-settings my-icon-project"></text>
+					<text class="text-black">设置</text>
+				</view>
+			</view>
+
+		</view>
+		<!--sys end -->
+
+	</view>
+	<!--down area end-->
+
+</view>
+<view style="height:100rpx"></view>
+
+
+
+<block wx:if="{{skin.IS_SUB}}">
+	<import src="../../tpls/menu_tpl.wxml" />
+	<template is="menuTpl" data="{{curMenu:'my_index',returnHome:false}}" />
+</block>

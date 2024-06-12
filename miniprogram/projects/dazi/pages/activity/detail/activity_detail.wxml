@@ -1,0 +1,130 @@
+<view wx:if="{{isLoad===null}}" class="margin-top load notexist text-l load-project"></view>
+<view wx:if="{{isLoad===false}}" class="margin-top load loading text-l load-project"></view>
+
+<block wx:if="{{isLoad}}">
+
+	<view class="main">
+		<view class="top">
+			<view class="cover shadow">
+				<view class="mark shadow-project">{{activity.ACTIVITY_CATE_NAME}}</view>
+				<image class="loading" mode="widthFix" lazy-load="{{true}}" src="{{activity.ACTIVITY_OBJ.cover[0]}}" />
+			</view>
+
+			<view class="inner">
+
+				<view class="title">{{activity.ACTIVITY_TITLE}}</view>
+				<view class="info">
+					<view class="line" wx:if="{{activity.ACTIVITY_TYPE==1}}">
+						<text class="left"><text class="icon-people margin-right-xxs"></text>发起人：</text>
+						<view class="right">
+							<view class="author  {{activity.author.USER_OBJ.sex=='男'?'text-blue':'text-red'}}">
+								<image class="loading" mode="aspectFill" lazy-load="{{true}}" src="{{activity.author.USER_PIC}}" />
+								<text>{{activity.author.USER_NAME}}</text>
+								<text class="icon-male text-blue margin-left-xxs" wx:if="{{activity.author.USER_OBJ.sex=='男'}}"></text>
+								<text class="icon-female text-red margin-left-xxs" wx:if="{{activity.author.USER_OBJ.sex=='女'}}"></text>
+							</view>
+						</view>
+					</view>
+					<view class="line" wx:else>
+						<text class="left"><text class="icon-people"></text>发起人：</text>
+						<text class="right">平台发布</text>
+					</view>
+					<view class="line">
+						<text class="left"><text class="icon-time margin-right-xxs"></text>时间：</text>
+						<text class="right">{{activity.time}}</text>
+					</view>
+					<view class="line">
+						<text class="left"> <text class="icon-stop margin-right-xxs"></text>报名截止：</text>
+						<text class="right">{{activity.stop}}</text>
+					</view>
+
+					<view class="line">
+						<text class="left"><text class="icon-new margin-right-xxs"></text>状态：</text>
+						<text class="right">{{activity.statusDesc}}</text>
+					</view>
+					<view class="line">
+						<text class="left"><text class="icon-friend margin-right-xxs"></text>报名：</text>
+						<text class="right">{{activity.ACTIVITY_JOIN_CNT}}<text class="num">/</text>{{activity.ACTIVITY_MAX_CNT==0?'不限':activity.ACTIVITY_MAX_CNT}}</text>
+					</view>
+
+					<view class="line">
+						<text class="left"><text class="icon-similar margin-right-xxs"></text>审核规则：</text>
+						<text class="right" wx:if="{{activity.ACTIVITY_CHECK_SET==0}}">报名后无需审核</text>
+						<text class="right" wx:if="{{activity.ACTIVITY_CHECK_SET==1}}">报名后需要发起人审核</text>
+					</view>
+					<view class="line"><text class="icon-roundclose margin-right-xxs"></text><text class="left">取消规则：</text>
+						<text class="right" wx:if="{{activity.ACTIVITY_CANCEL_SET==0}}">报名不可取消</text>
+						<text class="right" wx:if="{{activity.ACTIVITY_CANCEL_SET==1}}">报名随时可取消</text>
+						<text class="right" wx:if="{{activity.ACTIVITY_CANCEL_SET==2}}">报名截止前可取消</text>
+					</view>
+				</view>
+
+			</view>
+			<view class="inner margin-top" style="padding-bottom:10;">
+				<view class="info" bindtap="bindOpenMapTap" data-address="{{activity.ACTIVITY_ADDRESS}}" data-geo="{{activity.ACTIVITY_ADDRESS_GEO}}">
+					<view class="desc" style="line-height: 1.8;"><text class="icon-location margin-right-xs text-yellow"></text>活动地点：{{activity.ACTIVITY_ADDRESS}} <text class="icon-right text-grey"></text></view>
+				</view>
+			</view>
+
+		</view>
+
+
+
+		<view class="bottom">
+			<view class="menu">
+				<view bindtap="bindCurTap" class="item {{cur=='flow'?'cur':''}}" data-cur="flow">活动详情</view>
+				<view bindtap="bindCurTap" class="item {{cur=='users'?'cur':''}}" data-cur="users">报名名单<text class="num">({{activity.ACTIVITY_USER_LIST.length}})</text></view>
+			</view>
+
+			<view class="inner">
+
+				<block wx:if="{{cur=='users'}}">
+					<view class="user-pic">
+						<view class="line1" wx:if="{{activity.ACTIVITY_USER_LIST.length>0}}">
+							<view class="pic" wx:key="k" wx:for="{{activity.ACTIVITY_USER_LIST}}">
+								<text wx:if="{{item.user.USER_OBJ.sex=='男'}}" class="sex bg-blue icon-male"></text>
+								<text wx:if="{{item.user.USER_OBJ.sex=='女'}}" class="sex bg-red icon-female"></text>
+								<image mode="aspectFill" src="{{item.user.USER_PIC}}" class="loading shadow" lazy-load="{{true}}" />
+								<text class="text-cut user-name">{{item.user.USER_NAME}}</text>
+							</view>
+						</view>
+						<view wx:else class="line2">暂无报名~</view>
+					</view>
+				</block>
+				<block wx:if="{{cur=='flow'}}">
+					<view class="detail article-box">
+						<view class="article">
+							<block wx:for="{{activity.ACTIVITY_OBJ.desc}}" wx:key="key">
+								<view class="content" wx:if="{{item.type=='text'}}">
+									<text user-select="{{true}}">{{item.val}}</text>
+								</view>
+								<view class="pics" wx:if="{{item.type=='img'}}">
+									<image bindtap="url" data-type='img' data-url="{{item.val}}" show-menu-by-longpress="{{true}}" class="loading" mode='widthFix' lazy-load="true" src="{{item.val}}">
+									</image>
+								</view>
+							</block>
+						</view>
+
+					</view>
+				</block>
+
+			</view>
+		</view>
+
+
+	</view>
+
+	<view style="height:200rpx"></view>
+
+
+	<cmpt-detail mode="mode2" topBtnShow="{{topBtnShow}}" tag="{{activity.myActivityJoinTag}}" oid="{{activity._id}}" cate="{{activity.ACTIVITY_CATE_NAME}}" title="{{activity.ACTIVITY_TITLE}}" cover="{{activity.ACTIVITY_OBJ.cover[0]}}" qr="{{activity.ACTIVITY_QR}}" desc="查看活动详情" bg="{{skin.PROJECT_COLOR}}">
+		<view class="bottom-line">
+			<view bindtap="url" data-url="../../comment/list/comment_list?id={{id}}" class="join comment   margin-right">评论<text wx:if="{{activity.ACTIVITY_COMMENT_CNT>0}}">({{activity.ACTIVITY_COMMENT_CNT}})</text></view>
+
+			<view bindtap="bindJoinTap" wx:if="{{activity.statusDesc=='报名中'&&!activity.myActivityJoinId}}" class="join bg-project text-black">我要报名</view>
+			<view bindtap="bindCancelJoinTap" wx:elif="{{activity.myActivityJoinId}}" class="join bg-grey light">取消报名</view>
+			<view wx:else class="join bg-grey light">{{activity.statusDesc}}</view>
+		</view>
+	</cmpt-detail>
+
+</block>

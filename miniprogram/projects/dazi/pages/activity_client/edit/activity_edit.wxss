@@ -1,0 +1,5 @@
+@import "../../../style/skin.wxss";
+
+.text-blue {
+	color:var(--projectColor)!important
+}

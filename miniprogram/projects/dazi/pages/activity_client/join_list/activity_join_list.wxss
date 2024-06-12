@@ -1,0 +1,4 @@
+
+@import "../../admin/activity/join_list/admin_activity_join_list.wxss";  
+@import "../../../style/skin.wxss"; 
+ 

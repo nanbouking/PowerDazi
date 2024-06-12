@@ -1,0 +1,67 @@
+<block wx:if="{{isLoad&&isLogin}}">
+	<cmpt-comm-list type="my_activity_list" search="{{search||''}}" _menus="{{sortMenus}}" _items="{{sortItems}}" route="client/activity_my_list" isTotalMenu="{{false}}" sortMenusDefaultIndex="0" topBottom="120" placeholder="搜索标题" bind:list="bindCommListCmpt">
+
+		<view slot="searchEnd">
+			<button bindtap="url" data-type="relaunch" data-url="../add/activity_add" class="btn radius bg-project text-white margin-right-s"><text class="icon-roundadd margin-right-xxs"></text>创建新活动</button>
+		</view>
+
+		<!-- List Begin -->
+		<view class="text-pic-list-box padding-project">
+
+			<view class="item card-project shadow-project" wx:for="{{dataList.list}}" wx:key="index"> 
+				<view wx:if="{{item.statusDesc=='报名中'}}" class="status bg-yellow">{{item.statusDesc}}</view>
+				<view wx:elif="{{item.statusDesc=='待审核'}}" class="status bg-red">{{item.statusDesc}}</view>
+				<view wx:elif="{{item.statusDesc=='审核未过，待修改'}}" class="status bg-orange">{{item.statusDesc}}</view>
+				<view wx:else class="status">{{item.statusDesc}}</view>
+				 
+				<view class="title content-cut-two" bindtap="url" data-url="../detail/activity_detail?id={{item.ACTIVITY_JOIN_ACTIVITY_ID}}">{{item.ACTIVITY_TITLE}}</view>
+			 
+		 
+				<view class="data">活动时间：{{item.ACTIVITY_START}}～{{item.ACTIVITY_END}}</view>
+				<view class="data">报名截止：{{item.ACTIVITY_STOP}}</view> 
+				<view class="data">人数限定：{{item.ACTIVITY_JOIN_CNT}}<text class="margin-left-xxs margin-right-xxs">/</text>{{item.ACTIVITY_MAX_CNT==0?'不限人数':item.ACTIVITY_MAX_CNT+'人'}} <text class="margin-left text-grey">(仅指报名成功+待审人数)</text></view>
+				<view class="data">审核设定：
+					<text wx:if="{{item.ACTIVITY_CHECK_SET==1}}">报名后需要审核</text>
+					<text wx:if="{{item.ACTIVITY_CHECK_SET==0}}">报名后无需审核</text>
+				</view>
+				<view class="data">参数设定：
+					<text wx:if="{{item.ACTIVITY_CANCEL_SET==0}}">不可取消</text>
+					<text wx:if="{{item.ACTIVITY_CANCEL_SET==1}}">随时可取消</text>
+					<text wx:if="{{item.ACTIVITY_CANCEL_SET==2}}">报名截止前可取消</text>
+				</view>
+
+				<view class="data">
+					<text wx:if="{{item.ACTIVITY_JOIN_STATUS==0}}" class="text-blue"><text class="icon-newshot margin-right-xxs"></text>待审核</text>
+
+					<text wx:if="{{item.ACTIVITY_JOIN_STATUS==1}}" class="text-green"><text class="icon-check margin-right-xxs"></text>报名成功{{item.ACTIVITY_JOIN_IS_CHECKIN==1?'，已签到':''}}</text>
+
+					<block wx:elif="{{item.ACTIVITY_JOIN_STATUS==99}}">
+						<text class="text-red"><text class="icon-roundclose margin-right-xxs"></text>审核未通过<text class="text-grey" wx:if="{{item.ACTIVITY_JOIN_REASON}}">：{{item.ACTIVITY_JOIN_REASON}}</text></text>
+					</block>
+
+				</view>
+
+				<view class="data data-button">
+					<view bind:tap="url" data-url="../edit/activity_edit?id={{item._id}}"><text class="icon-edit"></text>编辑</view>
+					<view bindtap="bindJoinMoreTap" data-id="{{item._id}}" data-title="{{item.ACTIVITY_TITLE}}"><text class="icon-form"></text>名单与核销</view>
+					<view bind:tap="bindStatusMoreTap" data-id="{{item._id}}"><text class="icon-similar"></text>状态</view>
+					<view bind:tap="bindMoreTap" data-id="{{item._id}}" data-qr="{{item.ACTIVITY_QR}}" data-title="{{item.ACTIVITY_TITLE}}"><text class="icon-moreandroid"></text>更多</view> 
+					<button wx:if="{{(item.ACTIVITY_JOIN_STATUS==1||item.ACTIVITY_JOIN_STATUS==0) && item.ACTIVITY_JOIN_IS_CHECKIN==0}}" bindtap="bindCancelTap" data-id="{{item._id}}" class="btn mid bg-grey light"><text class="icon-close"></text>取消</button>
+				</view>
+
+			</view>
+
+			<!--load begin-->
+			<import src="../../../../../tpls/public/list_load_tpl.wxml" />
+			<template is="listLoadTpl" data="{{skin:'load-project',dataList}}" />
+			<!--load end-->
+
+		</view>
+		<!-- List END -->
+
+	</cmpt-comm-list>
+
+	<!--  button Begin -->
+	<!--  button END -->
+
+</block>

@@ -1,0 +1,7 @@
+<view wx:if="{{!isLoad}}" class="margin-top load loading text-l text-grey"></view>
+
+
+<view class="main-admin" wx:if="{{isLogin&&isLoad}}">
+	<include src="../../admin/setup/qr/admin_setup_qr_tpl.wxml" />
+
+</view>

@@ -1,0 +1,18 @@
+@import "../../../style/skin.wxss";
+@import "../../admin/activity/export/admin_activity_export.wxss";
+
+.bg-admin,
+.bg-blue,
+.btn-admin {
+	background-color: var(--projectColor) !important;
+}
+
+.text-white {
+	color: #000 !important
+}
+
+.bg-admin,
+.bg-blue,
+.btn-admin {
+	color: #000 !important
+}
